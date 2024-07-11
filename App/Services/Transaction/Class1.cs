@@ -1,4 +1,4 @@
-﻿namespace identity;
+﻿namespace Transaction;
 
 public class Class1
 {

@@ -1,4 +1,4 @@
-﻿namespace history;
+﻿namespace Identity;
 
 public class Class1
 {
