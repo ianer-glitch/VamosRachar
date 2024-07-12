@@ -1,4 +1,4 @@
-﻿namespace Identity;
+﻿namespace Domain;
 
 public class Class1
 {
