@@ -15,9 +15,17 @@ namespace Identity.Repositories.UserRepo
             _baseCase = baseCase;
         }
 
-        public async Task<User> InsertUser()
+        public async Task<User> InsertUser(User newUser)
         {
-            return  await _baseCase.InsertOrUpdate( new User());
+            try
+            {
+                if(newUser is null)
+                    throw new ArgumentException("No user to create");
+                return  await _baseCase.InsertOrUpdate( newUser);
+            }
+            catch(Exception ex){
+                throw new Exception(ex.Message);
+            }
             
         }
     }

@@ -9,6 +9,6 @@ namespace Identity.Repositories.UserRepo
 {
     public interface IUserRepositroy
     {
-        public Task<User> InsertUser();
+        public Task<User> InsertUser(User newUser);
     }
 }
