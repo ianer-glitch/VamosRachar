@@ -7,14 +7,14 @@ using Domain.Models;
 
 namespace Domain.Interfaces
 {
-    public interface IBaseUseCase<T> where T: BaseEntity
+    public interface IBaseUseCase<T> 
     {
-        T GetAllPaging(int Quanity, int CurrenctPage );
+        Task<T> GetAllPaging<T>(int Quanity, int CurrenctPage ) where T: BaseEntity;
 
-        T InsertOrUpdate(T Entity);
+        Task<T> InsertOrUpdate(T Entity);
 
-        T SetExcluded(T Entity);
+        Task<T> SetExcluded(T Entity);
 
-        T SetActive(T Entity);
+        Task<T> SetActive(T Entity);
     }
 }

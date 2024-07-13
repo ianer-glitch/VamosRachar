@@ -8,9 +8,16 @@ namespace Identity.UseCases
 {
     public class UserUseCase : IUserUseCase
     {
-        public Task<User> InsertUser()
+        private readonly IIdentityBaseUseCase<User> _baseCase;
+        public UserUseCase(IIdentityBaseUseCase<User> baseCase)
         {
-            throw new NotImplementedException();
+            _baseCase = baseCase;
+        }
+
+        public async Task<User> InsertUser()
+        {
+            return  await _baseCase.InsertOrUpdate( new User());
+            
         }
     }
 }
