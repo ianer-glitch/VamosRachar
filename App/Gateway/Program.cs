@@ -2,6 +2,7 @@
 
 
 
+using Identity.Repositories.IdentityRepo;
 using Identity.Repositories.UserRepo;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddScoped<IUserRepositroy,UserRepository>();
+builder.Services.AddScoped(typeof(IIdentityRepository<>),typeof(IdentityRepository<>));
 
 
 var app = builder.Build();
