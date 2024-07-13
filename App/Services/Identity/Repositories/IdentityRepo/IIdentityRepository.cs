@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain.Interfaces;
 
-namespace Identity.UseCases
+namespace Identity.Repositories.IdentityRepo
 {
-    public interface IIdentityBaseUseCase<T> : IBaseUseCase<T>
+    public interface IIdentityRepository<T> : IRepository<T>
     {
         
     }

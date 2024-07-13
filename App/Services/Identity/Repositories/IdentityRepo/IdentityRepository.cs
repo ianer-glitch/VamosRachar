@@ -6,9 +6,9 @@ using Identity.Models;
 using Domain.Interfaces;
 using Domain.Models;
 
-namespace Identity.UseCases
+namespace Identity.Repositories.IdentityRepo
 {
-    public class IdentityBaseUseCase<T> : IBaseUseCase<T>
+    public class IdentityRepository<T> : IRepository<T>
     {
         public Task<T1> GetAllPaging<T1>(int Quanity, int CurrenctPage) where T1 : BaseEntity
         {

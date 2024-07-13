@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain.Interfaces;
 using Identity.Models;
-namespace Identity.UseCases
+
+namespace Identity.Repositories.UserRepo
 {
-    public interface IUserUseCase
+    public interface IUserRepositroy
     {
         public Task<User> InsertUser();
     }

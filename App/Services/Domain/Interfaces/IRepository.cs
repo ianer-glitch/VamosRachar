@@ -7,7 +7,7 @@ using Domain.Models;
 
 namespace Domain.Interfaces
 {
-    public interface IBaseUseCase<T> 
+    public interface IRepository<T> 
     {
         Task<T> GetAllPaging<T>(int Quanity, int CurrenctPage ) where T: BaseEntity;
 

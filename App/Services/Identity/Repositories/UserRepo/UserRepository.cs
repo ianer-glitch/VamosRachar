@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Identity.Models;
+using Identity.Repositories.IdentityRepo;
 
-namespace Identity.UseCases
+namespace Identity.Repositories.UserRepo
 {
-    public class UserUseCase : IUserUseCase
+    public class UserRepository : IUserRepositroy
     {
-        private readonly IIdentityBaseUseCase<User> _baseCase;
-        public UserUseCase(IIdentityBaseUseCase<User> baseCase)
+        private readonly IIdentityRepository<User> _baseCase;
+        public UserRepository(IIdentityRepository<User> baseCase)
         {
             _baseCase = baseCase;
         }

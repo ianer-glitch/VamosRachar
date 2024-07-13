@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IBaseEntity
+    public interface IEntity
     {
         Guid Id {get;set;}
         DateTime Inclusion {get;set;}
