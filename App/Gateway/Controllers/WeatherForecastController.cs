@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-
+using Identity;
+using Identity.UseCases.UserCase;
+using Identity.Models;
 namespace Gateway.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
+    private readonly UseCaseUser _userCase;
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -13,9 +16,10 @@ public class WeatherForecastController : ControllerBase
 
     private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger,UseCaseUser userCase)
     {
         _logger = logger;
+        _userCase = userCase;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
@@ -29,4 +33,16 @@ public class WeatherForecastController : ControllerBase
         })
         .ToArray();
     }
+
+    [HttpGet(Name = "CreateUserTest")]
+    public async  Task<ActionResult<User>> CreateUserTest()
+    {
+        var userA = new User{
+            Name = "Ian"
+        };
+
+        var result = await _userCase.CreateUser(userA);
+        return Ok(result);
+    }
+
 }

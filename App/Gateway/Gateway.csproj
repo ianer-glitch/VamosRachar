@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Services\Identity\Identity.csproj" />
+    <ProjectReference Include="..\Services\Domain\Domain.csproj" />
+  </ItemGroup>
+
 </Project>
