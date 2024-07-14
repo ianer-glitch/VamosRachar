@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Models;
+
 
 
 namespace Domain.Interfaces
 {
     public interface IRepository<T> 
     {
-        Task<T> GetAllPaging<T>(int Quanity, int CurrenctPage ) where T: BaseEntity;
+        Task<T> GetAllPaging<T>(int Quanity, int CurrenctPage );
 
         Task<T> InsertOrUpdate(T Entity);
 

@@ -4,13 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Identity.Models;
 using Domain.Interfaces;
-using Domain.Models;
 
 namespace Identity.Repositories.IdentityRepo
 {
-    public class IdentityRepository<T> : IRepository<T>
+    public class IdentityRepository<T> : IIdentityRepository<T>
     {
-        public Task<T1> GetAllPaging<T1>(int Quanity, int CurrenctPage) where T1 : BaseEntity
+        public Task<T1> GetAllPaging<T1>(int Quanity, int CurrenctPage) 
         {
             throw new NotImplementedException();
         }

@@ -1,9 +1,6 @@
-
-
-
-
 using Identity.Repositories.IdentityRepo;
 using Identity.Repositories.UserRepo;
+using Identity.UseCases.UserCase;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddScoped<IUserRepositroy,UserRepository>();
 builder.Services.AddScoped(typeof(IIdentityRepository<>),typeof(IdentityRepository<>));
+builder.Services.AddScoped<IUserRepositroy,UserRepository>();
+builder.Services.AddScoped<IUseCaseUser,UseCaseUser>();
 
 
 var app = builder.Build();

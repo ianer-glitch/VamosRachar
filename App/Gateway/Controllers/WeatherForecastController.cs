@@ -8,7 +8,7 @@ namespace Gateway.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private readonly UseCaseUser _userCase;
+    private readonly IUseCaseUser _userCase;
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -16,13 +16,14 @@ public class WeatherForecastController : ControllerBase
 
     private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger,UseCaseUser userCase)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger,IUseCaseUser userCase)
     {
         _logger = logger;
         _userCase = userCase;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
+    [HttpGet]
+    [Route("/wheather")]
     public IEnumerable<WeatherForecast> Get()
     {
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -34,7 +35,8 @@ public class WeatherForecastController : ControllerBase
         .ToArray();
     }
 
-    [HttpGet(Name = "CreateUserTest")]
+    [HttpGet]
+    [Route("/createUser")]
     public async  Task<ActionResult<User>> CreateUserTest()
     {
         var userA = new User{

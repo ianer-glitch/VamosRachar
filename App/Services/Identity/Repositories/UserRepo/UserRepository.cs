@@ -21,7 +21,9 @@ namespace Identity.Repositories.UserRepo
             {
                 if(newUser is null)
                     throw new ArgumentException("No user to create");
-                return  await _baseCase.InsertOrUpdate( newUser);
+                    
+                return await Task.FromResult(newUser);
+                //return  await _baseCase.InsertOrUpdate( newUser);
             }
             catch(Exception ex){
                 throw new Exception(ex.Message);
