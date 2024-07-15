@@ -1,0 +1,9 @@
+syntax="proto3";
+
+service payloadExampleSerivce{
+	rpc GetPayloadMessage(PayloadMessage) returns (PayloadMessage);
+}
+
+message PayloadMessage{
+	string message = 1;
+}
