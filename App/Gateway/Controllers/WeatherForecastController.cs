@@ -1,3 +1,4 @@
+using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
 namespace Gateway.Controllers;
 
@@ -30,6 +31,30 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+    }
+    
+    [HttpGet]
+    [Route("/GetPayloadMessage")]
+    public async  Task<string> GetPayloadMessage()
+    {
+        var request = new PayloadMessage
+        {
+            Message = "test"
+        };
+
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+
+        var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = handler });
+            
+
+        var client = new payloadExampleSerivce.payloadExampleSerivceClient(channel);
+        var res = await client.GetPayloadMessageAsync(request);
+            
+        return res.Message;
+
     }
 
     

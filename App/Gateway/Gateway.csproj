@@ -11,7 +11,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Services\Application\Identity\Identity.csproj" />
     <ProjectReference Include="..\Services\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Services\ProtoServer\ProtoServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Grpc.Core.Api">
+      <HintPath>..\..\..\..\..\.nuget\packages\grpc.core.api\2.63.0\lib\netstandard2.1\Grpc.Core.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Grpc.Net.Client">
+      <HintPath>..\..\..\..\..\.nuget\packages\grpc.net.client\2.63.0\lib\net8.0\Grpc.Net.Client.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

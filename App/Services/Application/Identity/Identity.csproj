@@ -13,6 +13,16 @@
     <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
     <PackageReference Include="Grpc.AspNetCore.Server" Version="2.63.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.63.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.64.0"/>
+    <PackageReference Include="Grpc.Tools" Version="2.64.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProtoServer\ProtoServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\ProtoServer\payloadExample.proto" GrpcServices="both">
+      <Link>Protos\payload.proto</Link>
+    </Protobuf>
   </ItemGroup>
 </Project>
