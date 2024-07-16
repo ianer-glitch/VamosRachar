@@ -9,5 +9,11 @@
    <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore.Server" Version="2.63.0" />
   </ItemGroup>
+
+   <ItemGroup>
+     <Reference Include="Grpc.Net.Client">
+       <HintPath>..\..\..\..\..\..\.nuget\packages\grpc.net.client\2.63.0\lib\net8.0\Grpc.Net.Client.dll</HintPath>
+     </Reference>
+   </ItemGroup>
   
 </Project>

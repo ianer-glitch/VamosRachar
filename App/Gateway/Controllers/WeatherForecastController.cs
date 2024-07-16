@@ -1,6 +1,8 @@
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
 using ProtoServer;
+using ProtoServer.ConnectionHelpers;
+
 namespace Gateway.Controllers;
 
 [ApiController]
@@ -42,16 +44,8 @@ public class WeatherForecastController : ControllerBase
         {
             Message = "test grpc is working!!"
         };
-
-        var handler = new HttpClientHandler
-        {
-            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-        };
-
-        var channel = GrpcChannel.ForAddress("http://identity:5001", new GrpcChannelOptions { HttpHandler = handler });
-            
-
-        var client = new payloadExampleSerivce.payloadExampleSerivceClient(channel);
+        var client = MicroserviceConnection.GetIdentityClient<payloadExampleSerivce.payloadExampleSerivceClient>();
+        
         var res = await client.GetPayloadMessageAsync(request);
             
         return res.Message;
