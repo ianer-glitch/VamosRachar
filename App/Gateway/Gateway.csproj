@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+  
     <ProjectReference Include="..\Services\Application\Identity\Identity.csproj" />
+  
     <ProjectReference Include="..\Services\Domain\Domain.csproj" />
     <ProjectReference Include="..\Services\ProtoServer\ProtoServer.csproj" />
   </ItemGroup>
