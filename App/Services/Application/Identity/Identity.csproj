@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\ProtoServer\ProtoServer.csproj" />
   </ItemGroup>
 
@@ -24,5 +25,7 @@
     <Protobuf Include="..\..\ProtoServer\payloadExample.proto" GrpcServices="both">
       <Link>Protos\payload.proto</Link>
     </Protobuf>
+
+    <Protobuf Include="..\..\ProtoServer\ProtoFiles\*.proto" GrpcServices="both"/>
   </ItemGroup>
 </Project>

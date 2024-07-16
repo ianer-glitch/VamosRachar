@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProtoServer.ProtoFiles";
+
+service UserUseCase {
+  rpc CreateUser(PCreateUser)returns(PCreateUser);
+}
+
+message PCreateUser{
+  string Name = 1;
+  string Email = 2;
+}
