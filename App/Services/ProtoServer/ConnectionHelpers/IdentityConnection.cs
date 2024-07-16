@@ -6,6 +6,11 @@ public static  class MicroserviceConnection
 {
     public static T GetIdentityClient<T>()
     {
+        return GetClient<T>("http://identity:5001");
+    }
+    
+    private static T GetClient<T>(string clientUrl)
+    {
         try
         {
             var handler = new HttpClientHandler
@@ -13,7 +18,7 @@ public static  class MicroserviceConnection
                 ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
             };
 
-            var channel = GrpcChannel.ForAddress("http://identity:5001", new GrpcChannelOptions { HttpHandler = handler });
+            var channel = GrpcChannel.ForAddress(clientUrl, new GrpcChannelOptions { HttpHandler = handler });
             
             var client = (T)Activator.CreateInstance(typeof(T),channel);
             
@@ -29,4 +34,5 @@ public static  class MicroserviceConnection
             throw;
         }
     }
+    
 }
