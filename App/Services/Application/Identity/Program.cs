@@ -1,3 +1,4 @@
+using Identity.UseCases.UserUseCase;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +31,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+app.MapGrpcService<UserUseCase>();
 app.Run();
 
 
