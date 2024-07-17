@@ -1,6 +1,6 @@
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
-using ProtoServer;
+using ProtoServer.ProtoFiles;
 using ProtoServer.ConnectionHelpers;
 
 namespace Gateway.Controllers;

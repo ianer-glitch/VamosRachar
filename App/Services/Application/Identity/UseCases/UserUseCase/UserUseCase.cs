@@ -10,7 +10,7 @@ using ProtoServer.ProtoFiles;
 
 namespace Identity.UseCases.UserUseCase
 {
-    public class UserUseCase :ProtoServer.ProtoFiles.UserUseCase.UserUseCaseBase
+    public class UserUseCase : ProtoServer.ProtoFiles.UserUseCase.UserUseCaseBase
     {
         private readonly IUserRepositroy _userRepositroy;
 
@@ -36,8 +36,8 @@ namespace Identity.UseCases.UserUseCase
                     Id = Guid.NewGuid(),
                     Changed = DateTime.Now,
                     Inclusion = DateTime.Now,
-                    Email = "email@email.com",
-                    Name = "João",
+                    Email = request.Email,
+                    Name = request.Name,
                     Excluded = false,
                 };
                 

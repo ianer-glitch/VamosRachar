@@ -1,6 +1,6 @@
 syntax="proto3";
 
-option csharp_namespace = "ProtoServer";
+option csharp_namespace = "ProtoServer.ProtoFiles";
 
 service payloadExampleSerivce{
 	rpc GetPayloadMessage(PayloadMessage) returns (PayloadMessage);

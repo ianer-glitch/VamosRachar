@@ -1,3 +1,4 @@
+using Gateway.Services.User;
 using Microsoft.AspNetCore.Mvc;
 using ProtoServer.ConnectionHelpers;
 using ProtoServer.ProtoFiles;
@@ -9,19 +10,33 @@ namespace Gateway.Controllers;
 
 public class UserController : ControllerBase
 {
+    private readonly IUserService _userService;
+    public UserController(IUserService userService)
+    {
+        _userService = userService;
+    }
+    
+    
     [HttpPost]
     [Route("CreateUser")]
     public async Task<ActionResult<PCreateUser>> CreateUser([FromBody] PCreateUser request)
     {
         try
         {
-            var client = MicroserviceConnection.GetIdentityClient<UserUseCase.UserUseCaseClient>();
-            return await client.CreateUserAsync(request);
+            var res = await _userService.CreateUser(request);
+
+            if (res is not null)
+                    return Ok(res);
+
+            return BadRequest();
+            
+      
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            return BadRequest(e.Message);
             throw;
         }
     }
+    
 }

@@ -1,3 +1,5 @@
+using Identity.Repositories.IdentityRepo;
+using Identity.Repositories.UserRepo;
 using Identity.UseCases.UserUseCase;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
@@ -7,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IUserRepositroy, UserRepository>();
+builder.Services.AddScoped(typeof(IIdentityRepository<>), typeof(IdentityRepository<>));
 
 //configure serice port to listen
 builder.WebHost.ConfigureKestrel(op =>
