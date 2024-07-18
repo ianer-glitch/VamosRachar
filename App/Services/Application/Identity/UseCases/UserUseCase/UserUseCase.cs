@@ -31,22 +31,22 @@ namespace Identity.UseCases.UserUseCase
                 if(string.IsNullOrEmpty(request.Name))
                     throw new ArgumentException("User Has no name!");
 
-                User newUser = new()
-                {
-                    Id = Guid.NewGuid(),
-                    Changed = DateTime.Now,
-                    Inclusion = DateTime.Now,
-                    Email = request.Email,
-                    Name = request.Name,
-                    Excluded = false,
-                };
-                
-                var response = await _userRepositroy.InserOrUpdatetUser(newUser);
+                // User newUser = new()
+                // {
+                //     Id = Guid.NewGuid(),
+                //     Changed = DateTime.Now,
+                //     Inclusion = DateTime.Now,
+                //     Email = request.Email,
+                //     Name = request.Name,
+                //     Excluded = false,
+                // };
+                //
+                // var response = await _userRepositroy.InserOrUpdatetUser(newUser);
 
                 return new PCreateUser
                 {
-                    Email = response.Email,
-                    Name = response.Name,
+                    Email = request.Email,
+                    Name = request.Name,
                 };
 
             }

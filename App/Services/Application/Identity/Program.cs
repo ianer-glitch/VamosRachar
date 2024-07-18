@@ -1,3 +1,4 @@
+using Identity.Data;
 using Identity.Repositories.IdentityRepo;
 using Identity.Repositories.UserRepo;
 using Identity.UseCases.UserUseCase;
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserRepositroy, UserRepository>();
 builder.Services.AddScoped(typeof(IIdentityRepository<>), typeof(IdentityRepository<>));
 
+builder.Services.AddDbContext<IdentityContext>();
 //configure serice port to listen
 builder.WebHost.ConfigureKestrel(op =>
 {

@@ -36,6 +36,8 @@ services:
 #      - ASPNETCORE_HTTPS_PORTS=5001
     networks:
       default: 
+    links:
+      - db-identity
         
   db-identity:
     image: postgres
@@ -44,9 +46,8 @@ services:
       POSTGRES_PASSWORD: example
     volumes:
       - ./Volumes/Identity:/var/lib/postgresql/data
-    networks:
-      default:
-        
+    ports:
+      -  5011:5432
 networks:
   default:
     driver: "bridge"
