@@ -7,18 +7,20 @@ namespace Identity.Data;
 
 public class IdentityContext : IdentityDbContext<User>
 {
-    public IdentityContext(DbContextOptions<IdentityContext> options) : base (options)
+    private readonly IConfiguration _conf;
+    public IdentityContext(DbContextOptions<IdentityContext> options,IConfiguration conf) : base (options)
     {
-        
+        _conf = conf;
     }
   
     protected  override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        options.UseNpgsql(
-            "User ID=postgres;Password=admin;Host=db-identity;Port=5432;Database=postgres;Pooling=true;");
+        string dbConnectionString =
+            _conf.GetSection("ConnectionStrings").GetSection("IdentityDb").Value ?? string.Empty;
         
-        //"User ID=root;Password=admin;Host=localhost;Port=5011;Database=myDataBase;Pooling=true;"); >> connection string from host
-        //User ID=postgres;Password=admin;Host=localhost;Port=5011;Database=postgres;Pooling=true;
-        
+        if(string.IsNullOrEmpty(dbConnectionString))
+            throw new ArgumentNullException("IdentityDb connection string could not be found");
+
+        options.UseNpgsql(dbConnectionString);
     }
 }
