@@ -1,7 +1,9 @@
 using Identity.Data;
+using Identity.Models;
 using Identity.Repositories.IdentityRepo;
 using Identity.Repositories.UserRepo;
 using Identity.UseCases.UserUseCase;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,8 +16,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserRepositroy, UserRepository>();
 builder.Services.AddScoped(typeof(IIdentityRepository<>), typeof(IdentityRepository<>));
-
 builder.Services.AddDbContext<IdentityContext>();
+
+builder.Services.AddIdentity<User,IdentityRole>()
+    .AddEntityFrameworkStores<IdentityContext>()   
+    .AddDefaultTokenProviders();
 
 
 //configure serice port to listen

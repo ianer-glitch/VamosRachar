@@ -7,6 +7,8 @@ service UserUseCase {
 }
 
 message PCreateUser{
-  string Name = 1;
-  string Email = 2;
+  string name = 1;
+  string email = 2;
+  string password = 3;
+  string password_confirmation =4;
 }

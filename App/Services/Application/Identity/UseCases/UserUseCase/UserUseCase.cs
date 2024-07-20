@@ -13,7 +13,7 @@ namespace Identity.UseCases.UserUseCase
     public class UserUseCase : ProtoServer.ProtoFiles.UserUseCase.UserUseCaseBase
     {
         private readonly IUserRepositroy _userRepositroy;
-
+        
         public UserUseCase(IUserRepositroy userRepositroy)
         {
             _userRepositroy = userRepositroy;
@@ -30,18 +30,12 @@ namespace Identity.UseCases.UserUseCase
                 
                 if(string.IsNullOrEmpty(request.Name))
                     throw new ArgumentException("User Has no name!");
-
-                // User newUser = new()
-                // {
-                //     Id = Guid.NewGuid(),
-                //     Changed = DateTime.Now,
-                //     Inclusion = DateTime.Now,
-                //     Email = request.Email,
-                //     Name = request.Name,
-                //     Excluded = false,
-                // };
-                //
-                // var response = await _userRepositroy.InserOrUpdatetUser(newUser);
+                
+                if(!request.Password.Equals(request.PasswordConfirmation))
+                    throw new ArgumentException("Passwords not match!");
+                
+                
+                var response = await _userRepositroy.InsertUser(request);
 
                 return new PCreateUser
                 {
