@@ -3,6 +3,7 @@ using Identity.Repositories.IdentityRepo;
 using Identity.Repositories.UserRepo;
 using Identity.UseCases.UserUseCase;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddScoped<IUserRepositroy, UserRepository>();
 builder.Services.AddScoped(typeof(IIdentityRepository<>), typeof(IdentityRepository<>));
 
 builder.Services.AddDbContext<IdentityContext>();
+
+
 //configure serice port to listen
 builder.WebHost.ConfigureKestrel(op =>
 {
@@ -39,6 +42,14 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapGrpcService<UserUseCase>();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<IdentityContext>();
+    db.Database.Migrate();
+}
+
+
 app.Run();
 
 

@@ -11,10 +11,14 @@ public class IdentityContext : IdentityDbContext<User>
     {
         
     }
-
+  
     protected  override void OnConfiguring(DbContextOptionsBuilder options)
     {
         options.UseNpgsql(
-            "User ID=root;Password=example;Host=db-identity;Port=5432;Database=myDataBase;Pooling=true;");
+            "User ID=postgres;Password=admin;Host=db-identity;Port=5432;Database=postgres;Pooling=true;");
+        
+        //"User ID=root;Password=admin;Host=localhost;Port=5011;Database=myDataBase;Pooling=true;"); >> connection string from host
+        //User ID=postgres;Password=admin;Host=localhost;Port=5011;Database=postgres;Pooling=true;
+        
     }
 }
