@@ -2,10 +2,11 @@ using Identity.Data;
 using Identity.Models;
 using Identity.Repositories.IdentityRepo;
 using Identity.Repositories.UserRepo;
-using Identity.UseCases.UserUseCase;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using ProtoServer.ProtoFiles;
+using UserUseCase = Identity.UseCases.UserUseCase.UserUseCase;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapGrpcService<UserUseCase>();
+app.MapGrpcService<Identity.UseCases.AuthUseCase.AuthUseCase>();
+
 
 using (var scope = app.Services.CreateScope())
 {

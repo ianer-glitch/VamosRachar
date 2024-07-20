@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProtoServer.ProtoFiles";
+
+service AuthUseCase{
+  rpc UserLogin(PLoginRequest) returns (PLoginRequest){}
+}
+
+message PLoginRequest{
+  string email = 1 ;
+  string password = 2;
+}
