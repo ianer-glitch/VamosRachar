@@ -1,5 +1,6 @@
 using Identity.Data;
 using Identity.Models;
+using Identity.Repositories.AuthRepo;
 using Identity.Repositories.IdentityRepo;
 using Identity.Repositories.UserRepo;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserRepositroy, UserRepository>();
 builder.Services.AddScoped(typeof(IIdentityRepository<>), typeof(IdentityRepository<>));
 builder.Services.AddDbContext<IdentityContext>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 builder.Services.AddIdentity<User,IdentityRole>()
     .AddEntityFrameworkStores<IdentityContext>()   

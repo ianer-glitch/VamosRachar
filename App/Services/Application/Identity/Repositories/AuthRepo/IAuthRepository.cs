@@ -4,5 +4,5 @@ namespace Identity.Repositories.AuthRepo;
 
 public interface IAuthRepository
 {
-    Task<PLoginRequest> UserLogin(PLoginRequest request);
+    Task<bool> IsUserPasswordValid(PLoginRequest request);
 }

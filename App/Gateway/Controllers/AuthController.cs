@@ -1,3 +1,4 @@
+using Gateway.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 using ProtoServer.ProtoFiles;
 
@@ -7,12 +8,17 @@ namespace Gateway.Controllers;
 [Route("[controller]")]
 public class AuthController : ControllerBase
 {
+    private readonly IAuthService _auth;
+    public AuthController(IAuthService auth)
+    {
+        _auth = auth;
+    }
     [HttpPost]
-    public async Task<ActionResult> Login(PLoginRequest resquest)
+    public async Task<ActionResult<PAuthToken>> Login(PLoginRequest resquest)
     {
         try
         {
-            return await Task.FromResult(Ok());
+            return await _auth.Login(resquest);
         }
         catch (Exception e)
         {

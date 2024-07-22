@@ -4,6 +4,6 @@ namespace Gateway.Services.Auth;
 
 public interface IAuthService
 {
-    Task<PLoginRequest> Login(PLoginRequest request);
+    Task<PAuthToken> Login(PLoginRequest request);
 }
 

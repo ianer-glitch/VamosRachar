@@ -5,7 +5,7 @@ namespace Gateway.Services.Auth;
 
 public class AuthService : IAuthService
 {
-    public async Task<PLoginRequest> Login(PLoginRequest request)
+    public async Task<PAuthToken> Login(PLoginRequest request)
     {
         var client = MicroserviceConnection.GetIdentityClient<AuthUseCase.AuthUseCaseClient>();
         var response = await client.UserLoginAsync(request);

@@ -1,4 +1,5 @@
 using Grpc.Net.Client;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProtoServer.ProtoFiles;
 using ProtoServer.ConnectionHelpers;
@@ -25,6 +26,7 @@ public class WeatherForecastController : ControllerBase
 
     [HttpGet]
     [Route("/wheather")]
+    [Authorize]
     public IEnumerable<WeatherForecast> Get()
     {
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
