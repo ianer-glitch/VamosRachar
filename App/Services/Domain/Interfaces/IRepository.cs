@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IRepository<T> 
+    public interface IRepository<T> where T : IEntity
     {
-        Task<T> GetAllPaging<T>(int Quanity, int CurrenctPage );
+        Task<T> GetAllPagingAsync<T>(int quanity, int currenctPage );
 
-        Task<T> InsertOrUpdate(T Entity);
+        Task<T> InsertOrUpdateAsync(T entity);
 
-        Task<T> SetExcluded(T Entity);
+        Task<T> SetExcludedAsync(T entity);
 
-        Task<T> SetActive(T Entity);
+        Task<T> SetActiveAsync(T entity);
     }
 }
