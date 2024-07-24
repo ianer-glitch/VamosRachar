@@ -1,4 +1,5 @@
 
+using System.Text;
 using Gateway.Services.Auth;
 using Gateway.Services.User;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -22,9 +23,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer", 
         BearerFormat = "JWT", 
         In = ParameterLocation.Header, 
-        Description = @"JWT Authorization header using the Bearer scheme.
-            \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.
-        \r\n\r\nExample: \Bearer 12345abcdef\", 
+    
     }); 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement 
     { 
@@ -46,25 +45,23 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 //adding jwt to project -------
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddCookie()
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
         options =>
         {
-            var jwtConfiguration = builder.Configuration.GetSection("JwtConfiguration");
             
-            options.Authority = jwtConfiguration.GetSection("Authority").Value;
-            options.Audience = jwtConfiguration.GetSection("Audience").Value;
-
+            var jwtConfiguration = builder.Configuration.GetSection("JwtConfiguration");
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+
                 ValidIssuer = jwtConfiguration.GetSection("Authority").Value,
+                ValidAudience = jwtConfiguration.GetSection("Audience").Value,
+                IssuerSigningKey = new SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes(jwtConfiguration.GetSection("SecurityKey").Value))
             };
 
             options.RequireHttpsMetadata = false;
