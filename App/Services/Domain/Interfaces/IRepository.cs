@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 
@@ -11,10 +12,12 @@ namespace Domain.Interfaces
     {
         Task<T> GetAllPagingAsync<T>(int quanity, int currenctPage );
 
-        Task<T> InsertOrUpdateAsync(T entity);
+        Task<T> InsertAsync(T entity,Expression<Func<T,bool>> expre);
+        
+        Task<T> UpdateAsync(T entity,Expression<Func<T,bool>> expre);
 
-        Task<T> SetExcludedAsync(T entity);
+        Task<T> SetExcludedAsync(Expression<Func<T, bool>> expre);
 
-        Task<T> SetActiveAsync(T entity);
+        Task<T> SetActiveAsync(Expression<Func<T, bool>> expre);
     }
 }

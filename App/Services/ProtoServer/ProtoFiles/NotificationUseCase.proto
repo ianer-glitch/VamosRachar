@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProtoServer.ProtoFiles";
+
+service NotificationUseCaseProtoService{
+  rpc CreateNotification(PNotification) returns (PNotification){}
+}
+
+message PNotification{
+  string message = 1;
+}

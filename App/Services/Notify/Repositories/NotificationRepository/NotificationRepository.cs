@@ -1,5 +1,6 @@
  using Notify.Models;
 using Notify.Repositories.NotifyRepository;
+using ProtoServer.ProtoFiles;
 
 namespace Notify.Repositories.NotificationRepository;
 
@@ -7,29 +8,35 @@ public class NotificationRepository : INotificationRepository
 {
     private readonly INotifyRepository<Notification> _notify;
 
-    public NotificationRepository(INotifyRepository<Notification> notify)
+    public NotificationRepository(INotifyRepository<Notification> notif)
     {
-        _notify = notify;
+        _notify = notif;
     }
 
-
-    public Task<T> GetAllPagingAsync<T>(int quanity, int currenctPage)
+    public async Task<PNotification> CreateNotification(PNotification request)
     {
-        throw new NotImplementedException();
-    }
+        try
+        {
+            Notification not = new()
+            {
+                Changed = DateTime.Now,
+                Inclusion = DateTime.Now,
+                Excluded = false,
+                Id = Guid.NewGuid(),
+                Title = "Example Notification",
+                Description = "Description Notification"
+            };
 
-    public Task<Notification> InsertOrUpdateAsync(Notification entity)
-    {
-        throw new NotImplementedException();
-    }
+            var response = await _notify.InsertAsync(not, n => n.Id == not.Id);
+            if (response is null)
+                throw new ArgumentNullException("Insert not ocurred");
+            return request;
 
-    public async Task<Notification> SetExcludedAsync(Notification entity)
-    {
-        return await _notify.SetExcludedAsync(entity);
-    }
-
-    public Task<Notification> SetActiveAsync(Notification entity)
-    {
-        throw new NotImplementedException();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
     }
 }

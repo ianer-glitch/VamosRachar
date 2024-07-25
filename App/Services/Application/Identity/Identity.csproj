@@ -36,10 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-<!--    <Protobuf Include="..\..\ProtoServer\payloadExample.proto" GrpcServices="both">-->
-<!--      <Link>Protos\payload.proto</Link>-->
-<!--    </Protobuf>-->
-
     <Protobuf Include="..\..\ProtoServer\ProtoFiles\*" GrpcServices="both"/>
   </ItemGroup>
 
