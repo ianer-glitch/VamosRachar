@@ -23,8 +23,8 @@ public class NotificationRepository : INotificationRepository
                 Inclusion = DateTime.Now,
                 Excluded = false,
                 Id = Guid.NewGuid(),
-                Title = "Example Notification",
-                Description = "Description Notification"
+                Title = "Example Notification 2",
+                Description = "Description Notification 2"
             };
 
             var response = await _notify.InsertAsync(not, n => n.Id == not.Id);

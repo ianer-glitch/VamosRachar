@@ -3,19 +3,19 @@ using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using Notify.Data;
+using Notify.Extensions;
+
 
 namespace Notify.Repositories.NotifyRepository;
 
 public class NotifyRepository<T> : INotifyRepository<T> where T : class,IEntity
 {
     private readonly NotifyContext _notify;
-    public NotifyRepository()
+    private readonly IConfiguration _conf;
+    public NotifyRepository(IConfiguration conf)
     {
-        var mongoClient = new MongoClient("mongodb://user:pass@notify-db:27017");
-        
-        var dbContextOptions =
-            new DbContextOptionsBuilder<NotifyContext>().UseMongoDB(mongoClient, "notifify-db");
-        _notify = new NotifyContext(dbContextOptions.Options);
+        _conf = conf;
+        _notify = DbConnectExtension.GetDbContextInstance(_conf);
     }
     
     public async  Task<T1> GetAllPagingAsync<T1>(int quanity, int currenctPage)
