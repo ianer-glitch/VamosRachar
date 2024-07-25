@@ -12,6 +12,7 @@ public class NotifyRepository<T> : INotifyRepository<T> where T : class,IEntity
     public NotifyRepository()
     {
         var mongoClient = new MongoClient("mongodb://user:pass@notify-db:27017");
+        
         var dbContextOptions =
             new DbContextOptionsBuilder<NotifyContext>().UseMongoDB(mongoClient, "notifify-db");
         _notify = new NotifyContext(dbContextOptions.Options);
