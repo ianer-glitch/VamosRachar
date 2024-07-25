@@ -64,8 +64,8 @@ services:
   
   notify:
     image: notify
-    depends_on:
-      - db-identity
+#    depends_on:
+#      - db-identity
     build:
       context: ./App/Services/Notify
       dockerfile: ./Dockerfile
@@ -82,7 +82,18 @@ services:
       
     networks:
       default:
-
+  
+  notify-db:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    volumes:
+      - ./Volumes/Notify:/var/lib/notify-mongo/data
+    ports:
+      - 5003:27017
+    networks:
+      default:
 
 networks:
   default:

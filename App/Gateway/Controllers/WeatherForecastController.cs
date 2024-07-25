@@ -53,6 +53,22 @@ public class WeatherForecastController : ControllerBase
         return res.Message;
 
     }
+    
+    [HttpGet]
+    [Route("/NewNotification")]
+    public async  Task<string> NewNotification()
+    {
+        var request = new PNotification()
+        {
+            Message = "test grpc is working!!"
+        };
+        var client = MicroserviceConnection.GetNotifyClient<NotificationUseCaseProtoService.NotificationUseCaseProtoServiceClient>();
+        
+        var res = await client.CreateNotificationAsync(request);
+            
+        return res.Message;
+
+    }
 
     
 

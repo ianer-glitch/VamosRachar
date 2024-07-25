@@ -9,6 +9,11 @@ public static  class MicroserviceConnection
         return GetClient<T>("http://identity:5001");
     }
     
+    public static T GetNotifyClient<T>()
+    {
+        return GetClient<T>("http://notify:5002");
+    }
+    
     private static T GetClient<T>(string clientUrl)
     {
         try

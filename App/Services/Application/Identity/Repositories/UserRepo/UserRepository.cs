@@ -8,13 +8,13 @@ namespace Identity.Repositories.UserRepo;
 
 public class UserRepository :IUserRepositroy
 {
-    private readonly IIdentityRepository<User> _identityRepo;
+
     private readonly IdentityContext _context;
     private readonly UserManager<User> _userManager;
     
-    public UserRepository(IIdentityRepository<User> identityRepo,UserManager<User> userManager)
+    public UserRepository(UserManager<User> userManager)
     {
-        _identityRepo = identityRepo;
+
         _userManager = userManager;
 
     }
