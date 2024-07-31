@@ -14,6 +14,7 @@ builder.Services.AddSingleton<INotificationRepository, NotificationRepository>()
 builder.Services.AddSingleton(typeof(INotifyRepository<>),typeof(NotifyRepository<>));
 // builder.Services.AddSingleton<NotificationUseCase>();
 
+//use the host builder to create background services
 HostApplicationBuilder hBuilder = Host.CreateApplicationBuilder(args);
 hBuilder.Services.AddHostedService<NotificationUseCase>();
 IHost host = hBuilder.Build();
