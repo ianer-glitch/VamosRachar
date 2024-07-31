@@ -46,6 +46,7 @@ services:
     networks:
       default: 
         
+        
   db-identity:
     image: postgres
     restart: always
@@ -66,6 +67,7 @@ services:
     image: notify
     depends_on:
       - notify-db
+      - service-bus
     build:
       context: ./App/Services/Notify
       dockerfile: ./Dockerfile
@@ -93,6 +95,18 @@ services:
       - ./Volumes/Notify:/var/lib/notify-mongo/data
     ports:
       - 5003:27017
+    networks:
+      default:
+  
+  service-bus:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5004:5672
+      - 5005:15672
+    volumes:
+      - ./Volumes/ServiceBus/data/:/var/lib/rabbitmq/
+      - ./Volumes/ServiceBus/log/:/var/log/rabbitmq
+    
     networks:
       default:
 
