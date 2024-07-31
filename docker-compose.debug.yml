@@ -68,6 +68,9 @@ services:
     depends_on:
       - notify-db
       - service-bus
+
+
+
     build:
       context: ./App/Services/Notify
       dockerfile: ./Dockerfile

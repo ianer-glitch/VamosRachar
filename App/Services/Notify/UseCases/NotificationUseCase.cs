@@ -8,14 +8,14 @@ using RabbitMQ.Client.Events;
 
 namespace Notify.UseCases;
 
-public class NotificationUseCase
+public class NotificationUseCase : IHostedService
 {
-    private readonly INotificationRepository  _notificationRepo;
-
-    public NotificationUseCase(INotificationRepository  notificationRepo)
-    {
-        _notificationRepo = notificationRepo;
-    }
+    // private readonly INotificationRepository  _notificationRepo;
+    //
+    // public NotificationUseCase(INotificationRepository  notificationRepo)
+    // {
+    //     _notificationRepo = notificationRepo;
+    // }
     // public override async Task<PNotification> CreateNotification(PNotification request, ServerCallContext context)
     // {
     //     return await _notificationRepo.CreateNotification(request);
@@ -55,10 +55,20 @@ public class NotificationUseCase
                 Message = message
             };
             Console.WriteLine("Message recived " + message);
-            _notificationRepo.CreateNotification(request);
+            // _notificationRepo.CreateNotification(request);
         };
         channel.BasicConsume(queue: "hello",
             autoAck: true,
             consumer: consumer);
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        await CreateNotificationRabitMq();
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }
