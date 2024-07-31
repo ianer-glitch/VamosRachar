@@ -6,6 +6,8 @@
 # dotenv files
 .env
 
+Volumes/
+
 # User-specific files
 *.rsuser
 *.suo
