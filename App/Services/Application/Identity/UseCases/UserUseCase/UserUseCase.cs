@@ -9,6 +9,7 @@ using ProtoServer;
 using ProtoServer.ProtoFiles;
 using RabbitMQ.Client;
 using System.Text;
+using ServiceBusServer;
 
 
 namespace Identity.UseCases.UserUseCase
@@ -25,8 +26,8 @@ namespace Identity.UseCases.UserUseCase
         {
             try
             {
-                SendNotification("Creating User");
-                
+                // SendNotification("Creating User");
+                ServiceBusConections.SendObjectOnQueue("Creating User");
                 // if (request is null)
                 //     throw new ArgumentException("CreateUser payload is null!");
                 //
