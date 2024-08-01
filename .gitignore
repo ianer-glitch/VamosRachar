@@ -6,6 +6,7 @@
 # dotenv files
 .env
 
+##hidding local files
 Volumes/
 
 # User-specific files
