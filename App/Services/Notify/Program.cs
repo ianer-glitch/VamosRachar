@@ -10,19 +10,12 @@ var builder = WebApplication.CreateSlimBuilder(args);
 
 
 
-builder.Services.AddSingleton<INotificationRepository, NotificationRepository>();
-builder.Services.AddSingleton(typeof(INotifyRepository<>),typeof(NotifyRepository<>));
-// builder.Services.AddSingleton<NotificationUseCase>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped(typeof(INotifyRepository<>),typeof(NotifyRepository<>));
 
 //use the host builder to create background services
-HostApplicationBuilder hBuilder = Host.CreateApplicationBuilder(args);
-// hBuilder.Services.AddHostedService<NotificationUseCase>();
-hBuilder.Services.AddHostedService<NotificationServiceBus>();
-IHost host = hBuilder.Build();
-host.Run();
+builder.Services.AddHostedService<NotificationServiceBus>();
 
-// var not = builder.Services.BuildServiceProvider().GetRequiredService<NotificationUseCase>();
-// await not.CreateNotificationRabitMq();
 
 
 var app = builder.Build();

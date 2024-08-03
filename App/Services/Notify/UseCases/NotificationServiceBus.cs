@@ -6,7 +6,7 @@ public class NotificationServiceBus : IHostedService
 {
     public async  Task StartAsync(CancellationToken cancellationToken)
     {
-        await ServiceBusConections.GetObjectOnQueue<string>(CreateNotificationAsync);
+        await ServiceBusConections.ListeningObjectsInQueue<string>(CreateNotificationAsync,cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
@@ -19,4 +19,6 @@ public class NotificationServiceBus : IHostedService
     {
         Console.WriteLine(message);
     }
+
+   
 }

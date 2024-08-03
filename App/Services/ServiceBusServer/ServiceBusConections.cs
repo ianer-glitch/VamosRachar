@@ -61,8 +61,9 @@ public static class ServiceBusConections
         PublishOnServiceBus(channel,body);
     }
 
-    public static async Task GetObjectOnQueue<T>(Action<T> functionToRun)
+    public static async Task ListeningObjectsInQueue<T>(Action<T> functionToRun, CancellationToken cancelToken)
     {
+        
         ConnectionFactory factory = GetConnectionFactory();
         using var connection =  factory.CreateConnection();
         using var channel =  connection.CreateModel();
@@ -74,19 +75,23 @@ public static class ServiceBusConections
             arguments: null);
 
     
-
-        var consumer = new EventingBasicConsumer(channel);
-        consumer.Received += (model, ea) =>
+        while (!cancelToken.IsCancellationRequested)
         {
-            var body = ea.Body.ToArray();
-            string message = Encoding.UTF8.GetString(body);
-            var objectFromQueue = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(message);
-            functionToRun(objectFromQueue);
-        };
+            var consumer = new EventingBasicConsumer(channel);
+            
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body.ToArray();
+                string message = Encoding.UTF8.GetString(body);
+                var objectFromQueue = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(message);
+                functionToRun(objectFromQueue);
+            };
 
-        channel.BasicConsume(queue: "hello",
-            autoAck: true,
-            consumer: consumer);
+            channel.BasicConsume(queue: "hello",
+                autoAck: true,
+                consumer: consumer);
+            }
+        
     }
 
 }
