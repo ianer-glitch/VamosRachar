@@ -50,6 +50,8 @@ services:
   db-identity:
     image: postgres
     restart: always
+    depends_on:
+      - service-bus
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
@@ -68,9 +70,6 @@ services:
     depends_on:
       - notify-db
       - service-bus
-
-
-
     build:
       context: ./App/Services/Notify
       dockerfile: ./Dockerfile
@@ -95,7 +94,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=pass
       
     volumes:
-      - ./Volumes/Notify:/var/lib/notify-mongo/data
+      - ./Volumes/Notify:/var/lib/notify-mongo/data/db
     ports:
       - 5003:27017
     networks:

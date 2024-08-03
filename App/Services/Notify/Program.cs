@@ -10,8 +10,8 @@ var builder = WebApplication.CreateSlimBuilder(args);
 
 
 
-builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
-builder.Services.AddScoped(typeof(INotifyRepository<>),typeof(NotifyRepository<>));
+builder.Services.AddSingleton<INotificationRepository, NotificationRepository>();
+builder.Services.AddSingleton(typeof(INotifyRepository<>),typeof(NotifyRepository<>));
 
 //use the host builder to create background services
 builder.Services.AddHostedService<NotificationServiceBus>();
