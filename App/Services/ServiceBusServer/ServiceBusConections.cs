@@ -3,26 +3,26 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Microsoft.Extensions.Configuration;
 
 namespace ServiceBusServer;
 
 public static class ServiceBusConections
 {
 
-    private static RabbitMQ.Client.IModel  CreateSericeBusConnection(ConnectionFactory factory)
+    public static void  SendObjectOnNotiftyQueue(IConfiguration conf, object request)
     {
-        using var connection =  factory.CreateConnection();
-        using var channel =  connection.CreateModel();
-
-        channel.QueueDeclare(queue: "hello",
-            durable: false,
-            exclusive: false,
-            autoDelete: false,
-            arguments: null);
-
-        return channel;
-
+        string queueName = conf.GetSection("ServiceBusSettings").GetSection("notifyQueue").Value ?? throw new Exception("notify queue not found");
+        SendObjectOnQueue(request,queueName);
     }
+
+    public static void ListeningObjectsInNotificationQueue<T>(Action<T> functionToRun, CancellationToken cancelToken,
+        IConfiguration conf)
+    {
+        string queueName = conf.GetSection("ServiceBusSettings").GetSection("notifyQueue").Value ?? throw new Exception("notify queue not found");
+        ListeningObjectsInQueue<T>(functionToRun, cancelToken, queueName);
+    }
+    
     private static ConnectionFactory GetConnectionFactory()
     {
         var factory = new ConnectionFactory
@@ -34,22 +34,14 @@ public static class ServiceBusConections
         };
         return factory;
     }
-    private static void PublishOnServiceBus(RabbitMQ.Client.IModel channel ,Byte[] messageBody )
-    {
-        channel.BasicPublish(exchange: string.Empty,
-            routingKey: "hello",
-            basicProperties: null,
-            body: messageBody);
-    }
     
-    public static void  SendObjectOnQueue(object request)
+    public static void  SendObjectOnQueue(object request, string queueName)
     {
-
         ConnectionFactory factory = GetConnectionFactory();
         using var connection =  factory.CreateConnection();
         using var channel =  connection.CreateModel();
 
-        channel.QueueDeclare(queue: "hello",
+        channel.QueueDeclare(queue: queueName,
             durable: false,
             exclusive: false,
             autoDelete: false,
@@ -58,17 +50,21 @@ public static class ServiceBusConections
         string requestMessage = JsonSerializer.Serialize(request);
         var body = Encoding.UTF8.GetBytes(requestMessage);
             
-        PublishOnServiceBus(channel,body);
+        channel.BasicPublish(exchange: string.Empty,
+            routingKey: queueName,
+            basicProperties: null,
+            body: body);
     }
-
-    public static async Task ListeningObjectsInQueue<T>(Action<T> functionToRun, CancellationToken cancelToken)
+    public static void ListeningObjectsInQueue<T>(Action<T> functionToRun, CancellationToken cancelToken, string queueName)
     {
+        
+        
         
         ConnectionFactory factory = GetConnectionFactory();
         using var connection =  factory.CreateConnection();
         using var channel =  connection.CreateModel();
 
-        channel.QueueDeclare(queue: "hello",
+        channel.QueueDeclare(queue: queueName,
             durable: false,
             exclusive: false,
             autoDelete: false,
@@ -87,10 +83,10 @@ public static class ServiceBusConections
                 functionToRun(objectFromQueue);
             };
 
-            channel.BasicConsume(queue: "hello",
+            channel.BasicConsume(queue: queueName,
                 autoAck: true,
                 consumer: consumer);
-            }
+        }
         
     }
 

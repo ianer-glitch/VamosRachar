@@ -4,14 +4,11 @@ using ServiceBusServer;
 
 namespace Notify.UseCases;
 
-public class NotificationServiceBus(INotificationRepository noti) : IHostedService
+public class NotificationServiceBus(INotificationRepository noti , IConfiguration conf) : IHostedService
 {
-
-    private readonly INotificationRepository _noti = noti;
-
     public async  Task StartAsync(CancellationToken cancellationToken)
     {
-        await ServiceBusConections.ListeningObjectsInQueue<string>(CreateNotificationAsync,cancellationToken);
+        ServiceBusConections.ListeningObjectsInNotificationQueue<string>(CreateNotificationAsync,cancellationToken,conf);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
@@ -27,7 +24,7 @@ public class NotificationServiceBus(INotificationRepository noti) : IHostedServi
         {
             Message = "aaaaa"
         };
-        _noti.CreateNotification(notification);
+        noti.CreateNotification(notification);
     }
 
    

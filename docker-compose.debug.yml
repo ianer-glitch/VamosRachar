@@ -43,6 +43,7 @@ services:
       - JwtConfiguration__Audience=http://gateway:8000
       - JwtConfiguration__SecurityKey=55744df1-a4c9-4dda-a4bf-e2449b35ec0c
       - JwtConfiguration__ExpirationTimeInMinutes=120
+      - ServiceBusSettings__notifyQueue=notificationQueue
     networks:
       default: 
         
@@ -84,6 +85,7 @@ services:
       - ConnectionStrings__NotifyDb=mongodb://user:pass@notify-db:27017
       - ConnectionStrings__NotifyDbHost=mongodb://user:pass@localhost:5003
       - DatabaseName=notifify-db
+      - ServiceBusSettings__notifyQueue=notificationQueue
     networks:
       default:
   

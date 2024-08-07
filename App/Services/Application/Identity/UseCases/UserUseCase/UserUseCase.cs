@@ -17,17 +17,19 @@ namespace Identity.UseCases.UserUseCase
     public class UserUseCase : ProtoServer.ProtoFiles.UserUseCase.UserUseCaseBase
     {
         private readonly IUserRepositroy _userRepositroy;
+        private readonly IConfiguration _configuration;
         
-        public UserUseCase(IUserRepositroy userRepositroy)
+        public UserUseCase(IUserRepositroy userRepositroy , IConfiguration conf)
         {
             _userRepositroy = userRepositroy;
+            _configuration = conf;
         }
         public override async Task<PCreateUser> CreateUser(PCreateUser request, ServerCallContext context)
         {
             try
             {
                 // SendNotification("Creating User");
-                ServiceBusConections.SendObjectOnQueue("Creating User");
+                ServiceBusConections.SendObjectOnNotiftyQueue(_configuration,"Creating User");
                 // if (request is null)
                 //     throw new ArgumentException("CreateUser payload is null!");
                 //
@@ -57,35 +59,6 @@ namespace Identity.UseCases.UserUseCase
             }
             
            
-        }
-
-        private void SendNotification(string messageRequest)
-        {
-            var factory = new ConnectionFactory
-            {
-                UserName = "guest",
-                Password = "guest",
-                Port = 5672,
-                HostName = "service-bus"
-            };
-
-            using var connection =  factory.CreateConnection();
-            using var channel =  connection.CreateModel();
-
-            channel.QueueDeclare(queue: "hello",
-                durable: false,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
-            
-            
-            string message = messageRequest;
-            var body = Encoding.UTF8.GetBytes(message);
-            
-            channel.BasicPublish(exchange: string.Empty,
-                routingKey: "hello",
-                basicProperties: null,
-                body: body);
         }
     }
 }
