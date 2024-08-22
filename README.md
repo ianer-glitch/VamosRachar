@@ -28,3 +28,5 @@ Architecture:
     - [ ]  Transaction
     - [ ]  Notify
     - [ ]  Log
+- Infrastructure
+  - [X] Docker Compose
