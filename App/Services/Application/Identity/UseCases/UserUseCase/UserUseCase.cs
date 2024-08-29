@@ -28,8 +28,7 @@ namespace Identity.UseCases.UserUseCase
         {
             try
             {
-                // SendNotification("Creating User");
-                ServiceBusConections.SendObjectOnNotiftyQueue(_configuration,"Creating User");
+                ServiceBusConections.SendObjectOnLogQueue(_configuration,"Creating User");
                 // if (request is null)
                 //     throw new ArgumentException("CreateUser payload is null!");
                 //

@@ -45,4 +45,8 @@
     <ItemGroup>
         <Protobuf Include="..\ProtoServer\ProtoFiles\*" GrpcServices="both"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="UseCases\NotificationUseCase.cs" />
+    </ItemGroup>
 </Project>

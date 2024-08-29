@@ -12,32 +12,59 @@ public static class ServiceBusConections
 
     public static void  SendObjectOnNotiftyQueue(IConfiguration conf, object request)
     {
-        string queueName = conf.GetSection("ServiceBusSettings").GetSection("notifyQueue").Value ?? throw new Exception("notify queue not found");
-        SendObjectOnQueue(request,queueName);
+        var notifyConfig = conf.GetSection("ServiceBusSettings").GetSection("notifyQueue");
+        string queueName = notifyConfig.GetSection("QueueName").Value ?? throw new Exception("notify queue not found");
+        ConnectionFactory factory = GetConnectionFactory(notifyConfig);
+        SendObjectOnQueue(request,queueName,factory);
+    }
+    
+    public static void  SendObjectOnLogQueue(IConfiguration conf, object request)
+    {
+        var notifyConfig = conf.GetSection("ServiceBusSettings").GetSection("LogQueue");
+        string queueName = notifyConfig.GetSection("QueueName").Value ?? throw new Exception("log queue not found");
+        ConnectionFactory factory = GetConnectionFactory(notifyConfig);
+        SendObjectOnQueue(request,queueName,factory);
     }
 
     public static void ListeningObjectsInNotificationQueue<T>(Action<T> functionToRun, CancellationToken cancelToken,
         IConfiguration conf)
     {
-        string queueName = conf.GetSection("ServiceBusSettings").GetSection("notifyQueue").Value ?? throw new Exception("notify queue not found");
-        ListeningObjectsInQueue<T>(functionToRun, cancelToken, queueName);
+        var notifyConfig = conf.GetSection("ServiceBusSettings").GetSection("notifyQueue");
+        string queueName = notifyConfig.GetSection("QueueName").Value ?? throw new Exception("notify queue not found");
+        ListeningObjectsInQueue<T>(functionToRun, cancelToken, queueName,notifyConfig);
     }
     
-    private static ConnectionFactory GetConnectionFactory()
+    public static void ListeningObjectsInLogQueue<T>(Action<T> functionToRun, CancellationToken cancelToken,
+        IConfiguration conf)
     {
+        var logConfig = conf.GetSection("ServiceBusSettings").GetSection("LogQueue");
+        string queueName = logConfig.GetSection("QueueName").Value ?? throw new Exception("Log queue not found");
+        ListeningObjectsInQueue<T>(functionToRun, cancelToken, queueName,logConfig);
+    }
+    
+    private static ConnectionFactory GetConnectionFactory(IConfiguration conf)
+    {
+        
+        
+        string username = conf.GetSection("Username").Value ?? throw new Exception("username for queue connection not found");  
+        string password = conf.GetSection("Password").Value ?? throw new Exception("password for queue connection not found");
+        int port = int.Parse(conf.GetSection("Port").Value);
+        string hostName = conf.GetSection("HostName").Value ?? throw new Exception("host name for queue connection not found");
+        
+        
         var factory = new ConnectionFactory
         {
-            UserName = "guest",
-            Password = "guest",
-            Port = 5672,
-            HostName = "service-bus"
+            UserName = username,
+            Password = password,
+            Port = port,
+            HostName = hostName,
         };
         return factory;
     }
     
-    public static void  SendObjectOnQueue(object request, string queueName)
+    public static void  SendObjectOnQueue(object request, string queueName, ConnectionFactory factory)
     {
-        ConnectionFactory factory = GetConnectionFactory();
+        
         using var connection =  factory.CreateConnection();
         using var channel =  connection.CreateModel();
 
@@ -55,12 +82,10 @@ public static class ServiceBusConections
             basicProperties: null,
             body: body);
     }
-    public static void ListeningObjectsInQueue<T>(Action<T> functionToRun, CancellationToken cancelToken, string queueName)
+    public static void ListeningObjectsInQueue<T>(Action<T> functionToRun, CancellationToken cancelToken, string queueName, IConfiguration conf)
     {
         
-        
-        
-        ConnectionFactory factory = GetConnectionFactory();
+        ConnectionFactory factory = GetConnectionFactory(conf);
         using var connection =  factory.CreateConnection();
         using var channel =  connection.CreateModel();
 

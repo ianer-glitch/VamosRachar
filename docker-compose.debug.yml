@@ -43,7 +43,12 @@ services:
       - JwtConfiguration__Audience=http://gateway:8000
       - JwtConfiguration__SecurityKey=55744df1-a4c9-4dda-a4bf-e2449b35ec0c
       - JwtConfiguration__ExpirationTimeInMinutes=120
-      - ServiceBusSettings__notifyQueue=notificationQueue
+      
+      - ServiceBusSettings__LogQueue__QueueName=LogQueue
+      - ServiceBusSettings__LogQueue__Username=guest
+      - ServiceBusSettings__LogQueue__Password=guest
+      - ServiceBusSettings__LogQueue__Port=5672
+      - ServiceBusSettings__LogQueue__Hostname=service-bus
     networks:
       default: 
         
@@ -86,8 +91,10 @@ services:
       - ConnectionStrings__NotifyDbHost=mongodb://user:pass@localhost:5003
       - DatabaseName=notifify-db
       - ServiceBusSettings__notifyQueue=notificationQueue
+        
     networks:
       default:
+        
   
   notify-db:
     image: mongodb/mongodb-community-server:6.0-ubi8
@@ -113,7 +120,36 @@ services:
     
     networks:
       default:
+  
+  log:
+    image: log
+    depends_on:
+     
+      - service-bus
+    build:
+      context: ./App/Services/Log
+      dockerfile: ./Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5006:5006
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5006
+      # - ASPNETCORE_HTTPS_PORTS=5001
+      - ServiceBusSettings__LogQueue__QueueName=LogQueue
+      - ServiceBusSettings__LogQueue__Username=guest
+      - ServiceBusSettings__LogQueue__Password=guest
+      - ServiceBusSettings__LogQueue__Port=5672
+      - ServiceBusSettings__LogQueue__Hostname=service-bus
 
+
+
+
+
+    networks:
+      default:
+        
 networks:
   default:
     driver: "bridge"
